@@ -6,7 +6,9 @@ export class PlayersService {
   private readonly players: Player[] = [];
 
   create(player: Player) {
-    const isUnique = !this.players.find((val) => val.name === player.name);
+    const isUnique =
+      !this.players.find((val) => val.name === player.name) &&
+      !this.players.find((val) => val.id === player.id);
 
     if (!isUnique)
       throw new HttpException(
