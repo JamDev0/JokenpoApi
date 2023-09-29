@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { IsString } from 'class-validator';
 import { randomUUID } from 'node:crypto';
 import { Player } from 'src/interfaces/player.interface';
 import { PlayersService } from 'src/services/players.service';
@@ -8,6 +9,7 @@ interface PlayersFindOneParams {
 }
 
 class CreatePlayersDto {
+  @IsString()
   name: string;
 }
 
