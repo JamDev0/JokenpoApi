@@ -6,6 +6,14 @@ export class PlayersService {
   private readonly players: Player[] = [];
 
   create(player: Player) {
+    const isUnique = !this.players.find((val) => val.name === player.name);
+
+    if (!isUnique)
+      throw new HttpException(
+        `There is already an user with name ${player.name}`,
+        HttpStatus.BAD_REQUEST,
+      );
+
     this.players.push(player);
 
     return player;
