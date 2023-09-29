@@ -1,4 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { frasalArrayListing } from 'src/helpers/frasalArrayListing';
+import { isDuplicated } from 'src/helpers/isDuplicated';
 import { Player } from 'src/interfaces/player.interface';
 
 @Injectable()
@@ -6,13 +8,11 @@ export class PlayersService {
   private readonly players: Player[] = [];
 
   create(player: Player) {
-    const isUnique =
-      !this.players.find((val) => val.name === player.name) &&
-      !this.players.find((val) => val.id === player.id);
+    const isPlayerDuplicated = isDuplicated<Player>(this.players, player);
 
-    if (!isUnique)
+    if (isPlayerDuplicated)
       throw new HttpException(
-        `There is already an user with name ${player.name}`,
+        `${frasalArrayListing(isPlayerDuplicated)} are/is not unique!`,
         HttpStatus.BAD_REQUEST,
       );
 
