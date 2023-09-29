@@ -1,5 +1,7 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
+import { Player } from 'src/interfaces/player.interface';
+import { PlayersService } from 'src/services/players.service';
 
 interface PlayersFindOneParams {
   id: string;
@@ -11,27 +13,32 @@ class CreatePlayersDto {
 
 @Controller('players')
 export class PlayersController {
+  constructor(private playersService: PlayersService) {}
+
   @Get()
-  findAll(): string {
-    return 'players';
+  findAll(): Player[] {
+    const players = this.playersService.findAll();
+
+    return players;
   }
 
   @Get(':id')
-  findOne(@Param() params: PlayersFindOneParams): string {
+  findOne(@Param() params: PlayersFindOneParams): Player {
     const { id } = params;
 
-    return `player ${id}`;
+    const player = this.playersService.findOne(id);
+
+    return player;
   }
 
   @Post()
-  create(
-    @Body() body: CreatePlayersDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  create(@Body() body: CreatePlayersDto) {
     const { name } = body;
 
-    res.header({ 'Set-Cookie': `current-player=${name}` });
+    const player = { name, id: randomUUID() };
 
-    return res.send(`player created with name ${name}`);
+    const newPlayer = this.playersService.create(player);
+
+    return newPlayer;
   }
 }
