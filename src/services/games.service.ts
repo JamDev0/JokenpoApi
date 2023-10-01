@@ -5,8 +5,6 @@ import { Game } from 'src/interfaces/game.interface';
 import { PlayersService } from './players.service';
 import { RoundsService } from './rounds.service';
 
-// Find out if there is any way of customize the push method of an array, to give it a side effect - a validation in this situation
-
 class Entity extends Array {
   private onPush;
 
