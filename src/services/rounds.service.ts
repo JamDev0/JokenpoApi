@@ -34,4 +34,16 @@ export class RoundsService {
 
     return rounds;
   }
+
+  findOne(roundId: string) {
+    const round = this.rounds.find(({ id }) => id === roundId);
+
+    if (!round)
+      throw new HttpException(
+        `No round found with id of ${roundId}!`,
+        HttpStatus.BAD_REQUEST,
+      );
+
+    return round;
+  }
 }
