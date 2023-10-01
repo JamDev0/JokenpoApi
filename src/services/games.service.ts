@@ -107,4 +107,10 @@ export class GamesService {
 
     return game;
   }
+
+  findAll() {
+    const games = this.games;
+
+    return games;
+  }
 }
