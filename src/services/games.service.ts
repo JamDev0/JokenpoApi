@@ -2,24 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { frasalArrayListing } from 'src/helpers/frasalArrayListing';
 import { isDuplicated } from 'src/helpers/isDuplicated';
 import { Game } from 'src/interfaces/game.interface';
+import { Entity } from 'src/utils/entity';
 import { PlayersService } from './players.service';
 import { RoundsService } from './rounds.service';
-
-class Entity extends Array {
-  private onPush;
-
-  constructor(
-    onPush?: (pushedItems: any[], previewsArrayState: any[]) => void,
-  ) {
-    super();
-    this.onPush = onPush;
-  }
-
-  push(...args) {
-    this.onPush(args, this);
-    return super.push(...args);
-  }
-}
 
 function validateNewGameEntity(pushedGames: Game[], games: Game[]) {
   pushedGames.forEach((game) => {
